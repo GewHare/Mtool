@@ -1,5 +1,7 @@
 #include "Basics.h"
-
+#include "Tool.h"
+#include <iostream>
+using namespace std;
 Monomial::Monomial()
 {
 	head = 0;
@@ -82,4 +84,91 @@ Letter Monomial::read(int index)
 			re_u = re_u->next;
 		return (re_u->data);
 	}
+}
+
+bool Monomial::operator==(Monomial M)
+{
+	if (this->size == M.size)
+	{
+		int bools = 0;
+		for (int i = 0; i < M.size; i++)
+		{
+			for (int j = 0; j < this->size; j++)
+			{
+				if ((this->read(j).letter == M.read(i).letter) && (this->read(j).exponent == M.read(i).exponent))
+				{
+					bools++;
+					break;
+				}
+			}
+		}
+		if (bools == M.size)
+			return true;
+		else
+			return false;
+	}
+	else
+		return false;
+}
+
+Monomial Monomial::operator+(Monomial M)
+{
+	Monomial re_m = *this;
+	re_m.constnum += M.constnum;
+	return re_m;
+}
+
+Monomial Monomial::operator-(Monomial M)
+{
+	Monomial re_m = *this;
+	re_m.constnum -= M.constnum;
+	return re_m;
+}
+
+Monomial Monomial::operator*(Monomial M)
+{
+	Monomial re_m = *this;
+	for (int i = 0; i < M.size; i++)
+	{
+		int bools = 0;
+		for (int j = 0; j < re_m.size; j++,bools++)
+		{
+			if (re_m.read(j).letter == M.read(i).letter)
+			{
+				re_m.replace(j, Letter{ re_m.read(j).letter,re_m.read(j).exponent + M.read(i).exponent });
+				break;
+			}
+		}
+		if (bools == re_m.size)
+			re_m.append(M.read(i));
+	}
+	re_m.constnum *= M.constnum;
+	return re_m;
+}
+
+Monomial Monomial::operator/(Monomial M)
+{
+	Monomial re_m = *this;
+	for (int i = 0; i < M.size; i++)
+	{
+		Letter L = M.read(i);
+		L.exponent *= -1;
+		M.replace(i, L);
+	}
+	for (int i = 0; i < M.size; i++)
+	{
+		int bools = 0;
+		for (int j = 0; j < re_m.size; j++, bools++)
+		{
+			if (re_m.read(j).letter == M.read(i).letter)
+			{
+				re_m.replace(j, Letter{ re_m.read(j).letter,re_m.read(j).exponent + M.read(i).exponent });
+				break;
+			}
+		}
+		if (bools == re_m.size)
+			re_m.append(M.read(i));
+	}
+	re_m.constnum *= M.constnum;
+	return re_m;
 }
