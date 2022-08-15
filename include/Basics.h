@@ -13,14 +13,16 @@ struct LUnit
 };
 class Monomial
 {
+	//单项式类，字母项实质为一个链表
+	//由常数项，字母项，变量项组成
 public:
 	Monomial();
 	~Monomial();
-	int size;
-	Letter argument;
-	int constnum;
-	void append(Letter data);
-	void remove(int index);
+	int size;								//字母项项数（链表长度）
+	Letter argument;						//变量项
+	int constnum;							//常数项
+	void append(Letter data);				//在链表尾部添加
+	void remove(int index);					//删除
 	void replace(int index, Letter data);
 	Letter read(int index);
 	bool operator==(Monomial M);
@@ -42,6 +44,7 @@ class Polynomial
 public:
 	Polynomial();
 	~Polynomial();
+	int size;
 	void append(Monomial data);
 	void remove(int index);
 	void replace(int index, Monomial data);

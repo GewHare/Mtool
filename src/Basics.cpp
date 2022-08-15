@@ -172,3 +172,106 @@ Monomial Monomial::operator/(Monomial M)
 	re_m.constnum *= M.constnum;
 	return re_m;
 }
+
+Polynomial::Polynomial()
+{
+	head = 0;
+	tail = 0;
+	size = 0;
+}
+
+Polynomial::~Polynomial()
+{
+}
+
+void Polynomial::append(Monomial data)
+{
+	if (tail == 0)
+	{
+		head = new MUnit;
+		head->data = &data;
+		head->next = 0;
+		tail = head;
+		size++;
+	}
+	else
+	{
+		tail->next = new MUnit;
+		tail = tail->next;
+		tail->data = &data;
+		tail->next = 0;
+		size++;
+	}
+}
+
+void Polynomial::remove(int index)
+{
+	if (index >= size)
+	{
+	}
+	else
+	{
+		MUnit* del_unit = head;
+		MUnit* b_unit = head;
+		if (index == 0)
+		{
+			head = del_unit->next;
+			delete del_unit;
+			size--;
+		}
+		else
+		{
+			for (int i = 0; i < index; i++)
+			{
+				b_unit = del_unit;
+				del_unit = del_unit->next;
+			}
+			b_unit->next = del_unit->next;
+			delete del_unit;
+			size--;
+		}
+	}
+}
+
+void Polynomial::replace(int index, Monomial data)
+{
+	MUnit* re_u = head;
+	for (int i = 0; i < index; i++)
+		re_u = re_u->next;
+	re_u->data = &data;
+}
+
+Monomial Polynomial::read(int index)
+{
+	if (index >= size)
+	{
+		return Monomial();
+	}
+	else
+	{
+		MUnit* re_u = head;
+		for (int i = 0; i < index; i++)
+			re_u = re_u->next;
+		return *(re_u->data);
+	}
+}
+
+Polynomial Polynomial::operator+(Polynomial P)
+{
+	return Polynomial();
+}
+
+Polynomial Polynomial::operator-(Polynomial P)
+{
+	return Polynomial();
+}
+
+Polynomial Polynomial::operator*(Polynomial P)
+{
+	return Polynomial();
+}
+
+Polynomial Polynomial::operator/(Polynomial P)
+{
+	return Polynomial();
+}

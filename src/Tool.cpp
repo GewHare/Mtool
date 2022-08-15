@@ -21,3 +21,13 @@ void Print(Monomial M)
 	}
 	Print(M.argument);
 }
+
+void Print(Polynomial P)
+{
+	for (int i = 0; i < P.size; i++)
+	{
+		Print(P.read(i));
+		if (i != P.size - 1)
+			cout << '+';
+	}
+}
