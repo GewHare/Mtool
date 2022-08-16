@@ -5,6 +5,24 @@ Letter CreatLetter(char letter, int exponent)
 	return Letter{letter,exponent};
 }
 
+Monomial CreatMonomial(int constnum, Letter* letters,int l_size)
+{
+	Monomial re_m = Monomial();
+	re_m.constnum = constnum;
+	for (int i = 0; i < l_size ; i++)
+	{
+		re_m.append(letters[i]);
+	}
+	return Monomial();
+}
+
+Function CreatLinearFunction(int k, int b, char argument)
+{
+	Polynomial re_p = Polynomial();
+	Function re_f = Function(re_p);
+	return re_f;
+}
+
 void Print(Letter L)
 {
 	cout << L.letter;
@@ -30,4 +48,12 @@ void Print(Polynomial P)
 		if (i != P.size - 1)
 			cout << '+';
 	}
+}
+
+void Print(Function F)
+{
+	cout << F.id;
+	cout << '(' << F.value.letter << ')';
+	cout << '=';
+	Print(F.expression);
 }

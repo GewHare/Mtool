@@ -2,6 +2,20 @@
 #include "Tool.h"
 #include <iostream>
 using namespace std;
+int pow(int tn, int ex)
+{
+	int start = tn;
+	if (ex < 0)
+		return 0;
+	else if(ex == 0)
+		return 1;
+	else if(ex > 0)
+	{
+		for (int i = 1; i < ex; i++,tn*=start)
+		{}
+		return tn;
+	}
+}
 Monomial::Monomial()
 {
 	head = 0;
@@ -274,4 +288,67 @@ Polynomial Polynomial::operator*(Polynomial P)
 Polynomial Polynomial::operator/(Polynomial P)
 {
 	return Polynomial();
+}
+
+Arguments::Arguments()
+{
+	arrary = new int[80];
+}
+
+Arguments::~Arguments()
+{
+	delete [] arrary;
+}
+
+int Arguments::index(char name)
+{
+	return ((int)name - 60);
+}
+
+void Arguments::insert(char name, int data)
+{
+	arrary[index(name)] = data;
+}
+
+int Arguments::read(char name)
+{
+	if (name == 0)
+		return 0;
+	else
+		return arrary[index(name)];
+}
+
+Function::Function(Polynomial E)
+{
+	id = 'f';
+	expression = E;
+	args = new Arguments;
+}
+
+Function::~Function()
+{
+	delete args;
+}
+
+int Function::solve_y(int x)
+{
+	int re_num = 0;
+	for (int i = 0; i < expression.size; i++)
+	{
+		int m_num = expression.read(i).constnum;
+		for (int j = 0; j < expression.read(i).size; j++)
+		{
+			int l_num = pow(args->read(expression.read(i).read(j).letter), expression.read(i).read(j).exponent);
+			m_num *= l_num;
+		}
+		int v_num=pow(args->read(expression.read(i).argument.letter), expression.read(i).argument.exponent);
+		m_num *= v_num;
+		re_num += m_num;
+	}
+	return re_num;
+}
+
+int Function::solve_x(int y)
+{
+	return 0;
 }
