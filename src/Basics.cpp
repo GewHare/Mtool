@@ -33,18 +33,14 @@ void Monomial::append(Letter data)
 {
 	if (tail == 0)
 	{
-		head = new LUnit;
-		head->data = data;
-		head->next = 0;
+		head = new LUnit{data,0};
 		tail = head;
 		size++;
 	}
 	else
 	{
-		tail->next = new LUnit;
+		tail->next = new LUnit{data,0};
 		tail = tail->next;
-		tail->data = data;
-		tail->next = 0;
 		size++;
 	}
 }
@@ -202,18 +198,14 @@ void Polynomial::append(Monomial data)
 {
 	if (tail == 0)
 	{
-		head = new MUnit;
-		head->data = &data;
-		head->next = 0;
+		head = new MUnit{ &data,0};
 		tail = head;
 		size++;
 	}
 	else
 	{
-		tail->next = new MUnit;
+		tail->next = new MUnit{ &data,0 };
 		tail = tail->next;
-		tail->data = &data;
-		tail->next = 0;
 		size++;
 	}
 }
@@ -257,16 +249,16 @@ void Polynomial::replace(int index, Monomial data)
 
 Monomial Polynomial::read(int index)
 {
+ 	MUnit* re_m = head;
 	if (index >= size)
 	{
 		return Monomial();
 	}
 	else
 	{
-		MUnit* re_u = head;
 		for (int i = 0; i < index; i++)
-			re_u = re_u->next;
-		return *(re_u->data);
+			re_m = re_m->next;
+		return *(re_m->data);
 	}
 }
 

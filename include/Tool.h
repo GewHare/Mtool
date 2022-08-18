@@ -6,7 +6,7 @@ using namespace std;
 #define TOOL_H_
 Letter CreatLetter(char letter, int exponent);						//创建字母项
 Monomial CreatMonomial(int constnum, Letter* letters,int l_size);	//创建单项式
-Polynomial CreatPolynomial();										//创建多项式
+Polynomial CreatPolynomial(Monomial** ms,int m_size);										//创建多项式
 Function CreatFunction(Polynomial expression);						//创建函数
 Function CreatLinearFunction(int k, int b, char argument);			//创建线性函数
 void Print(Letter L);			//输出字母

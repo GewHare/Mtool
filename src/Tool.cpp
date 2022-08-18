@@ -7,13 +7,23 @@ Letter CreatLetter(char letter, int exponent)
 
 Monomial CreatMonomial(int constnum, Letter* letters,int l_size)
 {
-	Monomial re_m = Monomial();
-	re_m.constnum = constnum;
+	Monomial* re_m = new Monomial;
+	re_m->constnum = constnum;
 	for (int i = 0; i < l_size ; i++)
 	{
-		re_m.append(letters[i]);
+		re_m->append(letters[i]);
 	}
-	return Monomial();
+	return *(re_m);
+}
+
+Polynomial CreatPolynomial(Monomial** ms, int m_size)
+{
+	Polynomial* re_p = new Polynomial;
+	for (int i = 0; i < m_size; i++)
+	{
+		re_p->append(*(ms[i]));
+	}
+	return *(re_p);
 }
 
 Function CreatLinearFunction(int k, int b, char argument)
