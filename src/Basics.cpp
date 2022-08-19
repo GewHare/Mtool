@@ -1,45 +1,28 @@
 #include "Basics.h"
-#include "Tool.h"
-#include <iostream>
-using namespace std;
-int pow(int tn, int ex)
-{
-	int start = tn;
-	if (ex < 0)
-		return 0;
-	else if(ex == 0)
-		return 1;
-	else if(ex > 0)
-	{
-		for (int i = 1; i < ex; i++,tn*=start)
-		{}
-		return tn;
-	}
-}
+
 Monomial::Monomial()
 {
+	size = 0;
 	head = 0;
 	tail = 0;
-	size = 0;
 	constnum = 0;
-	argument = { 0,0 };
 }
 
 Monomial::~Monomial()
 {
 }
 
-void Monomial::append(Letter data)
+void Monomial::append(const Letter& data)
 {
 	if (tail == 0)
 	{
-		head = new LUnit{data,0};
+		head = new LNode{ data,0 };
 		tail = head;
 		size++;
 	}
 	else
 	{
-		tail->next = new LUnit{data,0};
+		tail->next = new LNode{ data,0 };
 		tail = tail->next;
 		size++;
 	}
@@ -47,12 +30,14 @@ void Monomial::append(Letter data)
 
 void Monomial::remove(int index)
 {
+
 	if (index >= size)
-	{}
+	{
+	}
 	else
 	{
-		LUnit* del_unit=head;
-		LUnit* b_unit=head;
+		LNode* del_unit = head;
+		LNode* b_unit = head;
 		if (index == 0)
 		{
 			head = del_unit->next;
@@ -73,15 +58,15 @@ void Monomial::remove(int index)
 	}
 }
 
-void Monomial::replace(int index, Letter data)
+void Monomial::replace(int index, const Letter& data)
 {
-	LUnit* re_u = head;
+	LNode* re_u = head;
 	for (int i = 0; i < index; i++)
 		re_u = re_u->next;
 	re_u->data = data;
 }
 
-Letter Monomial::read(int index)
+Letter Monomial::read(int index) const
 {
 	if (index >= size)
 	{
@@ -89,14 +74,14 @@ Letter Monomial::read(int index)
 	}
 	else
 	{
-		LUnit* re_u = head;
+		LNode* re_u = head;
 		for (int i = 0; i < index; i++)
 			re_u = re_u->next;
 		return (re_u->data);
 	}
 }
 
-bool Monomial::operator==(Monomial M)
+bool Monomial::operator==(const Monomial M) const
 {
 	if (this->size == M.size)
 	{
@@ -121,50 +106,23 @@ bool Monomial::operator==(Monomial M)
 		return false;
 }
 
-Monomial Monomial::operator+(Monomial M)
+Monomial Monomial::operator+(const Monomial M) const
 {
 	Monomial re_m = *this;
 	re_m.constnum += M.constnum;
 	return re_m;
 }
 
-Monomial Monomial::operator-(Monomial M)
+Monomial Monomial::operator-(const Monomial M) const
 {
 	Monomial re_m = *this;
 	re_m.constnum -= M.constnum;
 	return re_m;
 }
 
-Monomial Monomial::operator*(Monomial M)
+Monomial Monomial::operator*(const Monomial M) const
 {
 	Monomial re_m = *this;
-	for (int i = 0; i < M.size; i++)
-	{
-		int bools = 0;
-		for (int j = 0; j < re_m.size; j++,bools++)
-		{
-			if (re_m.read(j).letter == M.read(i).letter)
-			{
-				re_m.replace(j, Letter{ re_m.read(j).letter,re_m.read(j).exponent + M.read(i).exponent });
-				break;
-			}
-		}
-		if (bools == re_m.size)
-			re_m.append(M.read(i));
-	}
-	re_m.constnum *= M.constnum;
-	return re_m;
-}
-
-Monomial Monomial::operator/(Monomial M)
-{
-	Monomial re_m = *this;
-	for (int i = 0; i < M.size; i++)
-	{
-		Letter L = M.read(i);
-		L.exponent *= -1;
-		M.replace(i, L);
-	}
 	for (int i = 0; i < M.size; i++)
 	{
 		int bools = 0;
@@ -183,6 +141,31 @@ Monomial Monomial::operator/(Monomial M)
 	return re_m;
 }
 
+Monomial Monomial::operator/(const Monomial M) const
+{
+	Monomial re_m = *this;
+	for (int i = 0; i < M.size; i++)
+	{
+		int bools = 0;
+		for (int j = 0; j < re_m.size; j++, bools++)
+		{
+			if (re_m.read(j).letter == M.read(i).letter)
+			{
+				re_m.replace(j, Letter{ re_m.read(j).letter,re_m.read(j).exponent - M.read(i).exponent });
+				break;
+			}
+		}
+		if (bools == re_m.size)
+		{
+			Letter ad = M.read(i);
+			ad.exponent *= -1;
+			re_m.append(ad);
+		}
+	}
+	re_m.constnum /= M.constnum;
+	return re_m;
+}
+
 Polynomial::Polynomial()
 {
 	head = 0;
@@ -194,17 +177,17 @@ Polynomial::~Polynomial()
 {
 }
 
-void Polynomial::append(Monomial data)
+void Polynomial::append(const Monomial& data)
 {
 	if (tail == 0)
 	{
-		head = new MUnit{ &data,0};
+		head = new MNode{ data,0 };
 		tail = head;
 		size++;
 	}
 	else
 	{
-		tail->next = new MUnit{ &data,0 };
+		tail->next = new MNode{ data,0 };
 		tail = tail->next;
 		size++;
 	}
@@ -217,8 +200,8 @@ void Polynomial::remove(int index)
 	}
 	else
 	{
-		MUnit* del_unit = head;
-		MUnit* b_unit = head;
+		MNode* del_unit = head;
+		MNode* b_unit = head;
 		if (index == 0)
 		{
 			head = del_unit->next;
@@ -239,17 +222,17 @@ void Polynomial::remove(int index)
 	}
 }
 
-void Polynomial::replace(int index, Monomial data)
+void Polynomial::replace(int index, const Monomial& data)
 {
-	MUnit* re_u = head;
+	MNode* re_u = head;
 	for (int i = 0; i < index; i++)
 		re_u = re_u->next;
-	re_u->data = &data;
+	re_u->data = data;
 }
 
-Monomial Polynomial::read(int index)
+Monomial Polynomial::read(int index) const
 {
- 	MUnit* re_m = head;
+	MNode* re_m = head;
 	if (index >= size)
 	{
 		return Monomial();
@@ -258,51 +241,51 @@ Monomial Polynomial::read(int index)
 	{
 		for (int i = 0; i < index; i++)
 			re_m = re_m->next;
-		return *(re_m->data);
+		return re_m->data;
 	}
 }
 
-Polynomial Polynomial::operator+(Polynomial P)
+Polynomial Polynomial::operator+(const Polynomial& P) const
 {
 	return Polynomial();
 }
 
-Polynomial Polynomial::operator-(Polynomial P)
+Polynomial Polynomial::operator-(const Polynomial& P) const
 {
 	return Polynomial();
 }
 
-Polynomial Polynomial::operator*(Polynomial P)
+Polynomial Polynomial::operator*(const Polynomial& P) const
 {
 	return Polynomial();
 }
 
-Polynomial Polynomial::operator/(Polynomial P)
+Polynomial Polynomial::operator/(const Polynomial& P) const
 {
 	return Polynomial();
 }
 
-Arguments::Arguments()
+ArgumentMap::ArgumentMap()
 {
 	arrary = new int[80];
 }
 
-Arguments::~Arguments()
+ArgumentMap::~ArgumentMap()
 {
-	delete [] arrary;
+	delete[] arrary;
 }
 
-int Arguments::index(char name)
+int ArgumentMap::index(char name) const
 {
 	return ((int)name - 60);
 }
 
-void Arguments::insert(char name, int data)
+void ArgumentMap::insert(char name, int data)
 {
 	arrary[index(name)] = data;
 }
 
-int Arguments::read(char name)
+int ArgumentMap::read(char name) const
 {
 	if (name == 0)
 		return 0;
@@ -310,11 +293,11 @@ int Arguments::read(char name)
 		return arrary[index(name)];
 }
 
-Function::Function(Polynomial E)
+Function::Function(const Polynomial& E)
 {
 	id = 'f';
 	expression = E;
-	args = new Arguments;
+	args = new ArgumentMap;
 }
 
 Function::~Function()
@@ -324,20 +307,7 @@ Function::~Function()
 
 int Function::solve_y(int x)
 {
-	int re_num = 0;
-	for (int i = 0; i < expression.size; i++)
-	{
-		int m_num = expression.read(i).constnum;
-		for (int j = 0; j < expression.read(i).size; j++)
-		{
-			int l_num = pow(args->read(expression.read(i).read(j).letter), expression.read(i).read(j).exponent);
-			m_num *= l_num;
-		}
-		int v_num=pow(args->read(expression.read(i).argument.letter), expression.read(i).argument.exponent);
-		m_num *= v_num;
-		re_num += m_num;
-	}
-	return re_num;
+	return 0;
 }
 
 int Function::solve_x(int y)

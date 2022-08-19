@@ -1,16 +1,11 @@
 #pragma once
-#include "Basics.h"
-#include <iostream>
+#include<iostream>
+#include"Basics.h"
 using namespace std;
-#ifndef TOOL_H_
-#define TOOL_H_
-Letter CreatLetter(char letter, int exponent);						//创建字母项
-Monomial CreatMonomial(int constnum, Letter* letters,int l_size);	//创建单项式
-Polynomial CreatPolynomial(Monomial** ms,int m_size);										//创建多项式
-Function CreatFunction(Polynomial expression);						//创建函数
-Function CreatLinearFunction(int k, int b, char argument);			//创建线性函数
-void Print(Letter L);			//输出字母
-void Print(Monomial M);			//输出单项式
-void Print(Polynomial P);		//输出多项式
-void Print(Function F);			//输出函数
-#endif // !TOOL_H_
+#ifndef _TOOL_H_
+#define _TOOL_H_
+ostream& operator<<(ostream& O, const Letter& L);
+ostream& operator<<(ostream& O, const Monomial& M);
+ostream& operator<<(ostream& O, const Polynomial& P);
+ostream& operator<<(ostream& O, const Function& F);
+#endif // !_TOOL_H_
