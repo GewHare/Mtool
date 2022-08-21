@@ -305,6 +305,21 @@ Function::~Function()
 	delete args;
 }
 
+void Function::set_value(char terget)
+{
+	for (int i = 0; i < this->expression.size; i++)
+	{
+		for (int j = 0; j < this->expression.read(i).size; j++)
+		{
+			if (this->expression.read(i).read(j).letter == terget)
+			{
+				this->expression.read(i).value = this->expression.read(i).read(j);
+				this->expression.read(i).remove(j);
+			}
+		}
+	}
+}
+
 int Function::solve_y(int x)
 {
 	return 0;

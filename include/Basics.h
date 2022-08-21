@@ -85,6 +85,7 @@ public:
 	Letter value;				//函数的自变量
 	ArgumentMap* args;			//常量，变量参数对照表地址
 	Polynomial expression;		//函数解析式（多项式）
+	void set_value(char terget);//设置自变量
 	int solve_y(int x);			//求Y
 	int solve_x(int y);			//求X
 private:
