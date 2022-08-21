@@ -18,7 +18,10 @@ int main()
 	E.append(M2);
 	Function Fx(E);
 	Fx.set_value('x');
-	cout << Fx;
+	Fx.args->insert('k', 1);
+	Fx.args->insert('d', 1);
+	cout << Fx.args->read('k');
+	Fx.set_RE();
 	system("pause");
 	return 0;
 }

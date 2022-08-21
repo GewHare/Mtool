@@ -31,7 +31,7 @@ ostream& operator<<(ostream& O, const Function& F)
 {
 	O << F.id;
 	O << '(';
-	O << F.value.letter;
+	O << F.value;
 	O << ')';
 	O << '=';
 	O << F.expression;

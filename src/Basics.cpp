@@ -5,7 +5,8 @@ Monomial::Monomial()
 	size = 0;
 	head = 0;
 	tail = 0;
-	constnum = 0;
+	constnum = 1;
+	value = { 0,0 };
 }
 
 Monomial::~Monomial()
@@ -31,18 +32,16 @@ void Monomial::append(const Letter& data)
 void Monomial::remove(int index)
 {
 
+	LNode* del_unit = head;
+	LNode* b_unit = head;
 	if (index >= size)
 	{
 	}
 	else
 	{
-		LNode* del_unit = head;
-		LNode* b_unit = head;
 		if (index == 0)
 		{
 			head = del_unit->next;
-			delete del_unit;
-			size--;
 		}
 		else
 		{
@@ -52,10 +51,12 @@ void Monomial::remove(int index)
 				del_unit = del_unit->next;
 			}
 			b_unit->next = del_unit->next;
-			delete del_unit;
-			size--;
 		}
 	}
+	if (del_unit->next == 0)
+		tail = b_unit;
+	delete del_unit;
+	size--;
 }
 
 void Monomial::replace(int index, const Letter& data)
@@ -195,18 +196,16 @@ void Polynomial::append(const Monomial& data)
 
 void Polynomial::remove(int index)
 {
+	MNode* del_unit = head;
+	MNode* b_unit = head;
 	if (index >= size)
 	{
 	}
 	else
 	{
-		MNode* del_unit = head;
-		MNode* b_unit = head;
 		if (index == 0)
 		{
 			head = del_unit->next;
-			delete del_unit;
-			size--;
 		}
 		else
 		{
@@ -216,10 +215,12 @@ void Polynomial::remove(int index)
 				del_unit = del_unit->next;
 			}
 			b_unit->next = del_unit->next;
-			delete del_unit;
-			size--;
 		}
 	}
+	if (del_unit->next == 0)
+		tail = b_unit;
+	delete del_unit;
+	size--;
 }
 
 void Polynomial::replace(int index, const Monomial& data)
@@ -230,12 +231,11 @@ void Polynomial::replace(int index, const Monomial& data)
 	re_u->data = data;
 }
 
-Monomial Polynomial::read(int index) const
+Monomial& Polynomial::read(int index) const
 {
 	MNode* re_m = head;
 	if (index >= size)
 	{
-		return Monomial();
 	}
 	else
 	{
@@ -297,6 +297,7 @@ Function::Function(const Polynomial& E)
 {
 	id = 'f';
 	expression = E;
+	real_expression;
 	args = new ArgumentMap;
 }
 
@@ -307,22 +308,43 @@ Function::~Function()
 
 void Function::set_value(char terget)
 {
-	for (int i = 0; i < this->expression.size; i++)
+	value=terget;
+	for (int i = 0; i < expression.size; i++)
 	{
-		for (int j = 0; j < this->expression.read(i).size; j++)
+		int size = expression.read(i).size;
+		for (int j = 0; j < size; j++)
 		{
-			if (this->expression.read(i).read(j).letter == terget)
+			if(expression.read(i).read(j).letter==terget)
 			{
-				this->expression.read(i).value = this->expression.read(i).read(j);
-				this->expression.read(i).remove(j);
+				expression.read(i).value = expression.read(i).read(j);
+				expression.read(i).remove(j);
 			}
 		}
 	}
 }
 
+void Function::set_RE()
+{
+	for (int i = 0; i < expression.size; i++)
+	{
+		int coefficient = expression.read(i).constnum;
+		for (int j = 0; j < expression.read(i).size; j++)
+			coefficient*= pow(args->read(expression.read(i).read(j).letter), expression.read(i).read(j).exponent);
+		Monomial M;
+		M.constnum = coefficient;
+		M.value = expression.read(i).value;
+		real_expression.append(M);
+	}
+}
+
 int Function::solve_y(int x)
 {
-	return 0;
+	int sum = 0;
+	for (int i = 0; i < real_expression.size; i++)
+	{
+		sum += (real_expression.read(i).constnum * pow(x, real_expression.read(i).value.exponent));
+	}
+	return sum;
 }
 
 int Function::solve_x(int y)
