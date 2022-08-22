@@ -247,22 +247,76 @@ Monomial& Polynomial::read(int index) const
 
 Polynomial Polynomial::operator+(const Polynomial& P) const
 {
-	return Polynomial();
+	Polynomial re_p = *this;
+	for (int i = 0; i < P.size; i++)
+	{
+		int bools = 0;
+		int size = re_p.size;
+		for (int j = 0; j < size; j++,bools++)
+		{
+			if (re_p.read(j) == P.read(i))
+			{
+				re_p.replace(j, re_p.read(j) + P.read(i));
+				break;
+			}
+		}
+		if (bools == size)
+			re_p.append(P.read(i));
+	}
+	return re_p;
 }
 
 Polynomial Polynomial::operator-(const Polynomial& P) const
 {
-	return Polynomial();
+	Polynomial re_p = *this;
+	for (int i = 0; i < P.size; i++)
+	{
+		int bools = 0;
+		int size = re_p.size;
+		for (int j = 0; j < size; j++, bools++)
+		{
+			if (re_p.read(j) == P.read(i))
+			{
+				re_p.replace(j, re_p.read(j) - P.read(i));
+				break;
+			}
+		}
+		if (bools == size)
+			re_p.append(P.read(i));
+	}
+	return re_p;
 }
 
 Polynomial Polynomial::operator*(const Polynomial& P) const
 {
-	return Polynomial();
+	Polynomial re_p;
+	for (int i = 0; i < P.size; i++)
+	{
+		int bools = 0;
+		int size = this->size;
+		for (int j = 0; j < P.size; j++)
+		{
+			for (int j = 0; j < this->size; j++)
+				re_p.append(this->read(j) * P.read(i));
+		}
+	}
+	return re_p;
 }
 
 Polynomial Polynomial::operator/(const Polynomial& P) const
 {
-	return Polynomial();
+	Polynomial re_p;
+	for (int i = 0; i < P.size; i++)
+	{
+		int bools = 0;
+		int size = this->size;
+		for (int j = 0; j < P.size; j++)
+		{
+			for (int j = 0; j < this->size; j++)
+				re_p.append(this->read(j) / P.read(i));
+		}
+	}
+	return re_p;
 }
 
 ArgumentMap::ArgumentMap()

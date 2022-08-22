@@ -7,6 +7,14 @@ ostream& operator<<(ostream& O, const Letter& L)
 	O << L.exponent;
 	return O;
 }
+ostream& operator<<(ostream& O, const Point& P)
+{
+	O << '(';
+	O << P.x;
+	O << P.y;
+	O << ')';
+	return O;
+}
 ostream& operator<<(ostream& O, const Monomial& M)
 {
 	O << M.constnum;
@@ -27,6 +35,7 @@ ostream& operator<<(ostream& O, const Polynomial& P)
 	}
 	return O;
 }
+
 ostream& operator<<(ostream& O, const Function& F)
 {
 	O << F.id;

@@ -14,14 +14,10 @@ int main()
 	Monomial M2;
 	M2.append(Lb);
 	Polynomial E;
+	Polynomial E2;
 	E.append(M1);
-	E.append(M2);
-	ArgumentMap arg;
-	arg.insert('k', 1);
-	arg.insert('b', 1);
-	Function Fx(E, 'x');
-	Function F= Fx.set_RE(arg);
-	cout << F.solve_y(2);
+	E2.append(M2);
+	cout << E * E;
 	system("pause");
 	return 0;
 }

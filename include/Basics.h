@@ -9,6 +9,18 @@ struct Letter
 	int exponent;
 };
 
+struct Point
+{
+	int x;
+	int y;
+};
+
+struct Vector
+{
+	Point start;
+	Point end;
+};
+
 struct LNode
 {
 	//节点
@@ -28,6 +40,7 @@ public:
 	void remove(int index);							//移除下标为index的节点
 	void replace(int index, const Letter& data);	//将index处的数据替换为data
 	Letter read(int index) const;					//读取index处的数据
+	void sort(char mode = 'L');						//排序,'L'为按字母的ASCII码表排序，'E'为按字母的指数排序
 	bool operator==(const Monomial M) const;		//判断两个单项式是否为同类项
 	Monomial operator+(const Monomial M) const;		//将两个同类项相加
 	Monomial operator-(const Monomial M) const;		//将两个同类项相减
@@ -54,7 +67,8 @@ public:
 	void append(const Monomial& data);		//在多项式最后添加data单项式
 	void remove(int index);					//删除index位置的节点
 	void replace(int index, const Monomial& data);		//将index位置的节点删除
-	Monomial& read(int index) const;			//读取index处的数据
+	Monomial& read(int index) const;					//读取index处的数据
+	void sort(char mode = 'L');
 	Polynomial operator+(const Polynomial& P) const;	//将两个多项式相加
 	Polynomial operator-(const Polynomial& P) const;	//将两个多项式相减
 	Polynomial operator*(const Polynomial& P) const;	//将两个多项式相乘
@@ -66,6 +80,7 @@ private:
 
 class ArgumentMap
 {
+	//常量对照表类，实质为哈希表
 public:
 	ArgumentMap();
 	~ArgumentMap();
@@ -84,10 +99,10 @@ public:
 	Function();
 	~Function();
 	char id;					//函数的名称（唯一标识符）
-	char value;				//函数的自变量
+	char value;					//函数的自变量
 	Polynomial expression;		//函数解析式（多项式）
 	void set_value(char terget);//设置自变量
-	Function set_RE(const ArgumentMap& arg);
+	Function set_RE(const ArgumentMap& arg);	//输出被设置好常量值的函数解析式
 	int solve_y(int x);			//求Y
 	int solve_x(int y);			//求X
 private:
