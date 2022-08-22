@@ -16,12 +16,12 @@ int main()
 	Polynomial E;
 	E.append(M1);
 	E.append(M2);
-	Function Fx(E);
-	Fx.set_value('x');
-	Fx.args->insert('k', 1);
-	Fx.args->insert('d', 1);
-	cout << Fx.args->read('k');
-	Fx.set_RE();
+	ArgumentMap arg;
+	arg.insert('k', 1);
+	arg.insert('b', 1);
+	Function Fx(E, 'x');
+	Function F= Fx.set_RE(arg);
+	cout << F.solve_y(2);
 	system("pause");
 	return 0;
 }

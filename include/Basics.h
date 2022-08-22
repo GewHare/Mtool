@@ -80,15 +80,14 @@ class Function
 {
 	//函数类
 public:
-	Function(const Polynomial& E);
+	Function(const Polynomial& E, char value, char id = 'f');
+	Function();
 	~Function();
 	char id;					//函数的名称（唯一标识符）
 	char value;				//函数的自变量
-	ArgumentMap* args;			//常量，变量参数对照表地址
-	Polynomial expression;		//函数模板解析式（多项式）
-	Polynomial real_expression;//函数实际解析式
+	Polynomial expression;		//函数解析式（多项式）
 	void set_value(char terget);//设置自变量
-	void set_RE();
+	Function set_RE(const ArgumentMap& arg);
 	int solve_y(int x);			//求Y
 	int solve_x(int y);			//求X
 private:

@@ -293,28 +293,17 @@ int ArgumentMap::read(char name) const
 		return arrary[index(name)];
 }
 
-Function::Function(const Polynomial& E)
+Function::Function(const Polynomial& E, char valuex, char id)
 {
-	id = 'f';
 	expression = E;
-	real_expression;
-	args = new ArgumentMap;
-}
-
-Function::~Function()
-{
-	delete args;
-}
-
-void Function::set_value(char terget)
-{
-	value=terget;
+	this->id = id;
+	this->value = valuex;
 	for (int i = 0; i < expression.size; i++)
 	{
 		int size = expression.read(i).size;
 		for (int j = 0; j < size; j++)
 		{
-			if(expression.read(i).read(j).letter==terget)
+			if (expression.read(i).read(j).letter == valuex)
 			{
 				expression.read(i).value = expression.read(i).read(j);
 				expression.read(i).remove(j);
@@ -323,26 +312,40 @@ void Function::set_value(char terget)
 	}
 }
 
-void Function::set_RE()
+Function::Function()
 {
+}
+
+Function::~Function()
+{
+}
+
+void Function::set_value(char terget)
+{
+}
+
+Function Function::set_RE(const ArgumentMap& arg)
+{
+	Polynomial re_p;
 	for (int i = 0; i < expression.size; i++)
 	{
 		int coefficient = expression.read(i).constnum;
 		for (int j = 0; j < expression.read(i).size; j++)
-			coefficient*= pow(args->read(expression.read(i).read(j).letter), expression.read(i).read(j).exponent);
+			coefficient *= pow(arg.read(expression.read(i).read(j).letter), expression.read(i).read(j).exponent);
 		Monomial M;
 		M.constnum = coefficient;
 		M.value = expression.read(i).value;
-		real_expression.append(M);
+		re_p.append(M);
 	}
+	return Function(re_p,this->value);
 }
 
 int Function::solve_y(int x)
 {
 	int sum = 0;
-	for (int i = 0; i < real_expression.size; i++)
+	for (int i = 0; i < expression.size; i++)
 	{
-		sum += (real_expression.read(i).constnum * pow(x, real_expression.read(i).value.exponent));
+		sum += expression.read(i).constnum * (pow(x, expression.read(i).value.exponent));
 	}
 	return sum;
 }
