@@ -22,7 +22,8 @@ ostream& operator<<(ostream& O, const Monomial& M)
 	{
 		O << M.read(i);
 	}
-	O << M.value;
+	if(M.value.letter!=0)
+		O << M.value;
 	return O;
 }
 ostream& operator<<(ostream& O, const Polynomial& P)
@@ -30,7 +31,7 @@ ostream& operator<<(ostream& O, const Polynomial& P)
 	for (int i = 0; i < P.size; i++)
 	{
 		O << P.read(i);
-		if (i == P.size - 2)
+		if (i != P.size - 1)
 			O << '+';
 	}
 	return O;

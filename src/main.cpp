@@ -1,23 +1,42 @@
 #include <iostream>
+#include <map>
 #include "Basics.h"
 #include "Tool.h"
 
 using namespace std;
 int main()
 {
-	Letter Lk{ 'k',1 };
+	Letter Lc{ 'c',1 };
+	Monomial Mc;
+	Mc.append(Lc);
+	Letter Laf{ 'a',-1 };
+	Monomial Maf;
+	Maf.append(Laf);
+
+	Letter La{ 'a',1 };
 	Letter Lb{ 'b',1 };
-	Letter Lx{ 'x',1 };
-	Monomial M1;
-	M1.append(Lk);
-	M1.append(Lx);
-	Monomial M2;
-	M2.append(Lb);
-	Polynomial E;
-	Polynomial E2;
-	E.append(M1);
-	E2.append(M2);
-	cout << E * E;
+	Monomial Ma;
+	Ma.append(La);
+	Monomial Mb;
+	Mb.append(Lb);
+	Polynomial P = (Polynomial)Ma;
+	P.append(Mb);
+
+	Letter La2{ 'a',1 };
+	Letter Lb2{ 'b',1 };
+	Monomial Ma2;
+	Ma2.append(La2);
+	Monomial Mb2;
+	Mb2.append(Lb2);
+	Polynomial P2 = (Polynomial)Ma2;
+	P2.append(Mb2);
+	Polynomial P3 = (P ^ 2) * Ma;
+	Polynomial P4 = (P ^ 2) * Mb;
+	cout << P3.read(1);
+	cout << endl;
+	cout << P4.read(0);
+	cout << endl;
+	cout << (P^4);
 	system("pause");
 	return 0;
 }
