@@ -36,7 +36,6 @@ ostream& operator<<(ostream& O, const Polynomial& P)
 	}
 	return O;
 }
-
 ostream& operator<<(ostream& O, const Function& F)
 {
 	O << F.id;

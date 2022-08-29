@@ -413,10 +413,6 @@ void Equation::operator/(const Polynomial& P)
 {
 }
 
-void Equation::operator=(const Polynomial& P)
-{
-}
-
 Inequation::Inequation() :LinkList()
 {
 }

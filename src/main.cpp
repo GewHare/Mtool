@@ -30,13 +30,7 @@ int main()
 	Mb2.append(Lb2);
 	Polynomial P2 = (Polynomial)Ma2;
 	P2.append(Mb2);
-	Polynomial P3 = (P ^ 2) * Ma;
-	Polynomial P4 = (P ^ 2) * Mb;
-	cout << P3.read(1);
-	cout << endl;
-	cout << P4.read(0);
-	cout << endl;
-	cout << (P^4);
+	cout << (P^16);
 	system("pause");
 	return 0;
 }

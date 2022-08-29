@@ -2,10 +2,11 @@
 #include <cmath>
 #ifndef _BASICS_H_
 #define _BASICS_H_
+typedef unsigned char charex;
 struct Letter
 {
 	//字母结构
-	char letter;
+	charex letter;
 	double exponent;
 };
 
@@ -28,18 +29,18 @@ public:
 	LinkList();
 	~LinkList();
 	int size;
-	void append(const T& data);
-	void remove(int index);
-	void replace(int index, const T& data);
-	T& read(int index) const;
+	void append(const T& data);					//链表尾部添加data;
+	void remove(int index);						//删除链表index处的数据（和node节点）
+	void replace(int index, const T& data);     //将链表index处的数据替换为data
+	T& read(int index) const;					//返回链表index处的数据
 private:
-	struct Node
+	struct Node									//节点
 	{
-		T data;
-		Node* next;
+		T data;	    //数据
+		Node* next;//指向下一个节点的指针，如果此节点为最后，则为空指针
 	};
-	Node* head;
-	Node* tail;
+	Node* head;//指向开始节点的指针
+	Node* tail;//指向最后节点的指针
 };
 
 template<typename T>
@@ -135,13 +136,13 @@ public:
 	double constnum;
 	Letter value;
 	void sort(char mode = 'L');						//排序,'L'为按字母的ASCII码表排序，'E'为按字母的指数排序
-	Monomial copy() const;								//复制构造函数的暂时替代品
+	Monomial copy() const;							//复制构造函数的暂时替代品
 	bool operator==(const Monomial& M) const;		//判断两个单项式是否为同类项
-	Monomial operator+(const Monomial& M) const;		//将两个同类项相加
-	Monomial operator-(const Monomial& M) const;		//将两个同类项相减
-	Monomial operator*(const Monomial& M) const;		//将两个单项式相乘
+	Monomial operator+(const Monomial& M) const;	//将两个同类项相加
+	Monomial operator-(const Monomial& M) const;	//将两个同类项相减
+	Monomial operator*(const Monomial& M) const;	//将两个单项式相乘
 	Monomial operator*(double D) const;				//将两个单项式相乘
-	Monomial operator/(const Monomial& M) const;		//将两个单项式相除
+	Monomial operator/(const Monomial& M) const;	//将两个单项式相除
 	Monomial operator/(double D) const;				//将两个单项式相除
 private:
 };
@@ -155,30 +156,30 @@ public:
 	explicit Polynomial(Monomial M);
 	~Polynomial();
 	void sort(char mode = 'L');
-	Polynomial copy() const;									//临时用做复制构造函数的替代品
-	Polynomial operator+(const Monomial& M) const;
+	Polynomial copy() const;							//临时用做复制构造函数的替代品
+	Polynomial operator+(const Monomial& M) const;		//将一个多项式与一个单项式相加
 	Polynomial operator+(const Polynomial& P) const;	//将两个多项式相加
 
-	void operator+=(const Polynomial& P);
-	void operator+=(const Monomial& M);
+	void operator+=(const Polynomial& P);				//一个多项式加等于一个多项式
+	void operator+=(const Monomial& M);					//一个多项式加等于一个单项式
 
 	Polynomial operator-(const Polynomial& P) const;	//将两个多项式相减
-	Polynomial operator-(const Monomial& M) const;
+	Polynomial operator-(const Monomial& M) const;		//多项式减去一个单项式
 
-	void operator-=(const Polynomial& P);
-	void operator-=(const Monomial& M);
+	void operator-=(const Polynomial& P);				//一个多项式减等于一个多项式
+	void operator-=(const Monomial& M);					//一个多项式减等于一个单项式
 
 	Polynomial operator*(const Polynomial& P) const;	//将两个多项式相乘
-	Polynomial operator*(const Monomial& M) const;
+	Polynomial operator*(const Monomial& M) const;		//将一个多项式与一个单项式相乘
 
-	void operator*=(const Polynomial& P);
-	void operator*=(const Monomial& M);
+	void operator*=(const Polynomial& P);				//一个多项式乘等于一个多项式
+	void operator*=(const Monomial& M);					//一个多项式乘等于一个单项式
 
 	Polynomial operator/(const Polynomial& P) const;	//将两个多项式相除
-	Polynomial operator/(const Monomial& M) const;
+	Polynomial operator/(const Monomial& M) const;		//将一个多项式除以一个单项式
 
-	void operator/=(const Polynomial& P);
-	void operator/=(const Monomial& M);
+	void operator/=(const Polynomial& P);				//将一个多项式除以等于一个多项式
+	void operator/=(const Monomial& M);					//将一个多项式除以等于一个单项式
 
 	Polynomial operator^(int ex) const;					//多项式的ex次方
 private:
@@ -186,26 +187,27 @@ private:
 
 class Equation:public LinkList<Polynomial>
 {
+	//等式
 public:
 	Equation();
 	~Equation();
-	void operator+(const Polynomial& P);
-	void operator-(const Polynomial& P);
-	void operator*(const Polynomial& P);
-	void operator/(const Polynomial& P);
-	void operator=(const Polynomial& P);
+	void operator+(const Polynomial& P);				//同加，将等式所有项同加P；
+	void operator-(const Polynomial& P);				//同减，将等式所有项同减P；
+	void operator*(const Polynomial& P);				//同乘，将等式所有项同乘P；
+	void operator/(const Polynomial& P);				//同除，将等式所有项同除P；
 private:
 };
 
 class Inequation:public LinkList<Polynomial>
 {
+	//等式
 public:
 	Inequation();
 	~Inequation();
-	Inequation operator+(const Polynomial& P);
-	Inequation operator-(const Polynomial& P);
-	Inequation operator*(const Polynomial& P);
-	Inequation operator/(const Polynomial& P);
+	Inequation operator+(const Polynomial& P);			//同加，将不等式所有项同加P；
+	Inequation operator-(const Polynomial& P);			//同减，将不等式所有项同减P；
+	Inequation operator*(const Polynomial& P);			//同乘，将不等式所有项同乘P(constnum)常数为负应变号；
+	Inequation operator/(const Polynomial& P);			//同除，将不等式所有项同除P(constnum)常数为负应变号；
 private:
 };
 
@@ -237,8 +239,8 @@ public:
 	double solve_x(int y);			//求X
 private:
 };
-Vector operator+(Vector S, Vector E);
-Vector operator-(Vector S, Vector E);
-Vector operator*(Vector S, Vector E);
-Vector operator/(Vector S, Vector E);
+Vector operator+(Vector S, Vector E);					//向量相加
+Vector operator-(Vector S, Vector E);					//向量相减
+Vector operator*(Vector S, Vector E);					//向量相乘
+Vector operator/(Vector S, Vector E);					//向量相除
 #endif // !_BASICS_H_
