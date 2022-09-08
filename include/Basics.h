@@ -5,7 +5,7 @@
 typedef unsigned char charex;
 struct Letter
 {
-	//×ÖÄ¸½á¹¹
+	//å­—æ¯ç»“æ„
 	charex letter;
 	double exponent;
 };
@@ -27,20 +27,21 @@ class LinkList
 {
 public:
 	LinkList();
+	LinkList(const LinkList& L);
 	~LinkList();
 	int size;
-	void append(const T& data);					//Á´±íÎ²²¿Ìí¼Ódata;
-	void remove(int index);						//É¾³ıÁ´±íindex´¦µÄÊı¾İ£¨ºÍnode½Úµã£©
-	void replace(int index, const T& data);     //½«Á´±íindex´¦µÄÊı¾İÌæ»»Îªdata
-	T& read(int index) const;					//·µ»ØÁ´±íindex´¦µÄÊı¾İ
+	void append(const T& data);					//é“¾è¡¨å°¾éƒ¨æ·»åŠ data;
+	void remove(int index);						//åˆ é™¤é“¾è¡¨indexå¤„çš„æ•°æ®ï¼ˆå’ŒnodeèŠ‚ç‚¹ï¼‰
+	void replace(int index, const T& data);     //å°†é“¾è¡¨indexå¤„çš„æ•°æ®æ›¿æ¢ä¸ºdata
+	T& read(int index) const;					//è¿”å›é“¾è¡¨indexå¤„çš„æ•°æ®
 private:
-	struct Node									//½Úµã
+	struct Node									//èŠ‚ç‚¹
 	{
-		T data;	    //Êı¾İ
-		Node* next;//Ö¸ÏòÏÂÒ»¸ö½ÚµãµÄÖ¸Õë£¬Èç¹û´Ë½ÚµãÎª×îºó£¬ÔòÎª¿ÕÖ¸Õë
+		T data;	    //æ•°æ®
+		Node* next;//æŒ‡å‘ä¸‹ä¸€ä¸ªèŠ‚ç‚¹çš„æŒ‡é’ˆï¼Œå¦‚æœæ­¤èŠ‚ç‚¹ä¸ºæœ€åï¼Œåˆ™ä¸ºç©ºæŒ‡é’ˆ
 	};
-	Node* head;//Ö¸Ïò¿ªÊ¼½ÚµãµÄÖ¸Õë
-	Node* tail;//Ö¸Ïò×îºó½ÚµãµÄÖ¸Õë
+	Node* head;//æŒ‡å‘å¼€å§‹èŠ‚ç‚¹çš„æŒ‡é’ˆ
+	Node* tail;//æŒ‡å‘æœ€åèŠ‚ç‚¹çš„æŒ‡é’ˆ
 };
 
 template<typename T>
@@ -130,117 +131,117 @@ T& LinkList<T>::read(int index) const
 class Monomial:public LinkList<Letter>
 {
 public:
-	//µ¥ÏîÊ½Àà£¬ÊµÖÊÎªÒ»¸öÁ´±í
+	//å•é¡¹å¼ç±»ï¼Œå®è´¨ä¸ºä¸€ä¸ªé“¾è¡¨
 	Monomial();
 	~Monomial();
 	double constnum;
 	Letter value;
-	void sort(char mode = 'L');						//ÅÅĞò,'L'Îª°´×ÖÄ¸µÄASCIIÂë±íÅÅĞò£¬'E'Îª°´×ÖÄ¸µÄÖ¸ÊıÅÅĞò
-	Monomial copy() const;							//¸´ÖÆ¹¹Ôìº¯ÊıµÄÔİÊ±Ìæ´úÆ·
-	bool operator==(const Monomial& M) const;		//ÅĞ¶ÏÁ½¸öµ¥ÏîÊ½ÊÇ·ñÎªÍ¬ÀàÏî
-	Monomial operator+(const Monomial& M) const;	//½«Á½¸öÍ¬ÀàÏîÏà¼Ó
-	Monomial operator-(const Monomial& M) const;	//½«Á½¸öÍ¬ÀàÏîÏà¼õ
-	Monomial operator*(const Monomial& M) const;	//½«Á½¸öµ¥ÏîÊ½Ïà³Ë
-	Monomial operator*(double D) const;				//½«Á½¸öµ¥ÏîÊ½Ïà³Ë
-	Monomial operator/(const Monomial& M) const;	//½«Á½¸öµ¥ÏîÊ½Ïà³ı
-	Monomial operator/(double D) const;				//½«Á½¸öµ¥ÏîÊ½Ïà³ı
+	void sort(char mode = 'L');						//æ’åº,'L'ä¸ºæŒ‰å­—æ¯çš„ASCIIç è¡¨æ’åºï¼Œ'E'ä¸ºæŒ‰å­—æ¯çš„æŒ‡æ•°æ’åº
+	Monomial copy() const;							//å¤åˆ¶æ„é€ å‡½æ•°çš„æš‚æ—¶æ›¿ä»£å“
+	bool operator==(const Monomial& M) const;		//åˆ¤æ–­ä¸¤ä¸ªå•é¡¹å¼æ˜¯å¦ä¸ºåŒç±»é¡¹
+	Monomial operator+(const Monomial& M) const;	//å°†ä¸¤ä¸ªåŒç±»é¡¹ç›¸åŠ 
+	Monomial operator-(const Monomial& M) const;	//å°†ä¸¤ä¸ªåŒç±»é¡¹ç›¸å‡
+	Monomial operator*(const Monomial& M) const;	//å°†ä¸¤ä¸ªå•é¡¹å¼ç›¸ä¹˜
+	Monomial operator*(double D) const;				//å°†ä¸¤ä¸ªå•é¡¹å¼ç›¸ä¹˜
+	Monomial operator/(const Monomial& M) const;	//å°†ä¸¤ä¸ªå•é¡¹å¼ç›¸é™¤
+	Monomial operator/(double D) const;				//å°†ä¸¤ä¸ªå•é¡¹å¼ç›¸é™¤
 private:
 };
 
 class Polynomial:public LinkList<Monomial>
 {
-	//¶àÏîÊ½Àà£¬ÊµÖÊÎªÁ´±í
+	//å¤šé¡¹å¼ç±»ï¼Œå®è´¨ä¸ºé“¾è¡¨
 public:
 	Polynomial();
 	Polynomial(double D);
 	explicit Polynomial(Monomial M);
 	~Polynomial();
 	void sort(char mode = 'L');
-	Polynomial copy() const;							//ÁÙÊ±ÓÃ×ö¸´ÖÆ¹¹Ôìº¯ÊıµÄÌæ´úÆ·
-	Polynomial operator+(const Monomial& M) const;		//½«Ò»¸ö¶àÏîÊ½ÓëÒ»¸öµ¥ÏîÊ½Ïà¼Ó
-	Polynomial operator+(const Polynomial& P) const;	//½«Á½¸ö¶àÏîÊ½Ïà¼Ó
+	Polynomial copy() const;							//ä¸´æ—¶ç”¨åšå¤åˆ¶æ„é€ å‡½æ•°çš„æ›¿ä»£å“
+	Polynomial operator+(const Monomial& M) const;		//å°†ä¸€ä¸ªå¤šé¡¹å¼ä¸ä¸€ä¸ªå•é¡¹å¼ç›¸åŠ 
+	Polynomial operator+(const Polynomial& P) const;	//å°†ä¸¤ä¸ªå¤šé¡¹å¼ç›¸åŠ 
 
-	void operator+=(const Polynomial& P);				//Ò»¸ö¶àÏîÊ½¼ÓµÈÓÚÒ»¸ö¶àÏîÊ½
-	void operator+=(const Monomial& M);					//Ò»¸ö¶àÏîÊ½¼ÓµÈÓÚÒ»¸öµ¥ÏîÊ½
+	void operator+=(const Polynomial& P);				//ä¸€ä¸ªå¤šé¡¹å¼åŠ ç­‰äºä¸€ä¸ªå¤šé¡¹å¼
+	void operator+=(const Monomial& M);					//ä¸€ä¸ªå¤šé¡¹å¼åŠ ç­‰äºä¸€ä¸ªå•é¡¹å¼
 
-	Polynomial operator-(const Polynomial& P) const;	//½«Á½¸ö¶àÏîÊ½Ïà¼õ
-	Polynomial operator-(const Monomial& M) const;		//¶àÏîÊ½¼õÈ¥Ò»¸öµ¥ÏîÊ½
+	Polynomial operator-(const Polynomial& P) const;	//å°†ä¸¤ä¸ªå¤šé¡¹å¼ç›¸å‡
+	Polynomial operator-(const Monomial& M) const;		//å¤šé¡¹å¼å‡å»ä¸€ä¸ªå•é¡¹å¼
 
-	void operator-=(const Polynomial& P);				//Ò»¸ö¶àÏîÊ½¼õµÈÓÚÒ»¸ö¶àÏîÊ½
-	void operator-=(const Monomial& M);					//Ò»¸ö¶àÏîÊ½¼õµÈÓÚÒ»¸öµ¥ÏîÊ½
+	void operator-=(const Polynomial& P);				//ä¸€ä¸ªå¤šé¡¹å¼å‡ç­‰äºä¸€ä¸ªå¤šé¡¹å¼
+	void operator-=(const Monomial& M);					//ä¸€ä¸ªå¤šé¡¹å¼å‡ç­‰äºä¸€ä¸ªå•é¡¹å¼
 
-	Polynomial operator*(const Polynomial& P) const;	//½«Á½¸ö¶àÏîÊ½Ïà³Ë
-	Polynomial operator*(const Monomial& M) const;		//½«Ò»¸ö¶àÏîÊ½ÓëÒ»¸öµ¥ÏîÊ½Ïà³Ë
+	Polynomial operator*(const Polynomial& P) const;	//å°†ä¸¤ä¸ªå¤šé¡¹å¼ç›¸ä¹˜
+	Polynomial operator*(const Monomial& M) const;		//å°†ä¸€ä¸ªå¤šé¡¹å¼ä¸ä¸€ä¸ªå•é¡¹å¼ç›¸ä¹˜
 
-	void operator*=(const Polynomial& P);				//Ò»¸ö¶àÏîÊ½³ËµÈÓÚÒ»¸ö¶àÏîÊ½
-	void operator*=(const Monomial& M);					//Ò»¸ö¶àÏîÊ½³ËµÈÓÚÒ»¸öµ¥ÏîÊ½
+	void operator*=(const Polynomial& P);				//ä¸€ä¸ªå¤šé¡¹å¼ä¹˜ç­‰äºä¸€ä¸ªå¤šé¡¹å¼
+	void operator*=(const Monomial& M);					//ä¸€ä¸ªå¤šé¡¹å¼ä¹˜ç­‰äºä¸€ä¸ªå•é¡¹å¼
 
-	Polynomial operator/(const Polynomial& P) const;	//½«Á½¸ö¶àÏîÊ½Ïà³ı
-	Polynomial operator/(const Monomial& M) const;		//½«Ò»¸ö¶àÏîÊ½³ıÒÔÒ»¸öµ¥ÏîÊ½
+	Polynomial operator/(const Polynomial& P) const;	//å°†ä¸¤ä¸ªå¤šé¡¹å¼ç›¸é™¤
+	Polynomial operator/(const Monomial& M) const;		//å°†ä¸€ä¸ªå¤šé¡¹å¼é™¤ä»¥ä¸€ä¸ªå•é¡¹å¼
 
-	void operator/=(const Polynomial& P);				//½«Ò»¸ö¶àÏîÊ½³ıÒÔµÈÓÚÒ»¸ö¶àÏîÊ½
-	void operator/=(const Monomial& M);					//½«Ò»¸ö¶àÏîÊ½³ıÒÔµÈÓÚÒ»¸öµ¥ÏîÊ½
+	void operator/=(const Polynomial& P);				//å°†ä¸€ä¸ªå¤šé¡¹å¼é™¤ä»¥ç­‰äºä¸€ä¸ªå¤šé¡¹å¼
+	void operator/=(const Monomial& M);					//å°†ä¸€ä¸ªå¤šé¡¹å¼é™¤ä»¥ç­‰äºä¸€ä¸ªå•é¡¹å¼
 
-	Polynomial operator^(int ex) const;					//¶àÏîÊ½µÄex´Î·½
+	Polynomial operator^(int ex) const;					//å¤šé¡¹å¼çš„exæ¬¡æ–¹
 private:
 };
 
 class Equation:public LinkList<Polynomial>
 {
-	//µÈÊ½
+	//ç­‰å¼
 public:
 	Equation();
 	~Equation();
-	void operator+(const Polynomial& P);				//Í¬¼Ó£¬½«µÈÊ½ËùÓĞÏîÍ¬¼ÓP£»
-	void operator-(const Polynomial& P);				//Í¬¼õ£¬½«µÈÊ½ËùÓĞÏîÍ¬¼õP£»
-	void operator*(const Polynomial& P);				//Í¬³Ë£¬½«µÈÊ½ËùÓĞÏîÍ¬³ËP£»
-	void operator/(const Polynomial& P);				//Í¬³ı£¬½«µÈÊ½ËùÓĞÏîÍ¬³ıP£»
+	void operator+(const Polynomial& P);				//åŒåŠ ï¼Œå°†ç­‰å¼æ‰€æœ‰é¡¹åŒåŠ Pï¼›
+	void operator-(const Polynomial& P);				//åŒå‡ï¼Œå°†ç­‰å¼æ‰€æœ‰é¡¹åŒå‡Pï¼›
+	void operator*(const Polynomial& P);				//åŒä¹˜ï¼Œå°†ç­‰å¼æ‰€æœ‰é¡¹åŒä¹˜Pï¼›
+	void operator/(const Polynomial& P);				//åŒé™¤ï¼Œå°†ç­‰å¼æ‰€æœ‰é¡¹åŒé™¤Pï¼›
 private:
 };
 
 class Inequation:public LinkList<Polynomial>
 {
-	//µÈÊ½
+	//ç­‰å¼
 public:
 	Inequation();
 	~Inequation();
-	Inequation operator+(const Polynomial& P);			//Í¬¼Ó£¬½«²»µÈÊ½ËùÓĞÏîÍ¬¼ÓP£»
-	Inequation operator-(const Polynomial& P);			//Í¬¼õ£¬½«²»µÈÊ½ËùÓĞÏîÍ¬¼õP£»
-	Inequation operator*(const Polynomial& P);			//Í¬³Ë£¬½«²»µÈÊ½ËùÓĞÏîÍ¬³ËP(constnum)³£ÊıÎª¸ºÓ¦±äºÅ£»
-	Inequation operator/(const Polynomial& P);			//Í¬³ı£¬½«²»µÈÊ½ËùÓĞÏîÍ¬³ıP(constnum)³£ÊıÎª¸ºÓ¦±äºÅ£»
+	Inequation operator+(const Polynomial& P);			//åŒåŠ ï¼Œå°†ä¸ç­‰å¼æ‰€æœ‰é¡¹åŒåŠ Pï¼›
+	Inequation operator-(const Polynomial& P);			//åŒå‡ï¼Œå°†ä¸ç­‰å¼æ‰€æœ‰é¡¹åŒå‡Pï¼›
+	Inequation operator*(const Polynomial& P);			//åŒä¹˜ï¼Œå°†ä¸ç­‰å¼æ‰€æœ‰é¡¹åŒä¹˜P(constnum)å¸¸æ•°ä¸ºè´Ÿåº”å˜å·ï¼›
+	Inequation operator/(const Polynomial& P);			//åŒé™¤ï¼Œå°†ä¸ç­‰å¼æ‰€æœ‰é¡¹åŒé™¤P(constnum)å¸¸æ•°ä¸ºè´Ÿåº”å˜å·ï¼›
 private:
 };
 
 class ArgumentMap
 {
-	//³£Á¿¶ÔÕÕ±íÀà£¬ÊµÖÊÎª¹şÏ£±í
+	//å¸¸é‡å¯¹ç…§è¡¨ç±»ï¼Œå®è´¨ä¸ºå“ˆå¸Œè¡¨
 public:
 	ArgumentMap();
 	~ArgumentMap();
-	void insert(char name, int data);	//²åÈë¼üÎªnameµÄÊı¾İdata
-	double read(char name) const;				//²éÑ¯nameµÄÊı¾İ
+	void insert(char name, int data);	//æ’å…¥é”®ä¸ºnameçš„æ•°æ®data
+	double read(char name) const;				//æŸ¥è¯¢nameçš„æ•°æ®
 private:
-	double* arrary;						//´æ´¢¹şÏ£±íÊı¾İµÄÊı×é
+	double* arrary;						//å­˜å‚¨å“ˆå¸Œè¡¨æ•°æ®çš„æ•°ç»„
 };
 
 class Function
 {
-	//º¯ÊıÀà
+	//å‡½æ•°ç±»
 public:
 	Function(const Polynomial& E, char value, char id = 'f');
 	Function();
 	~Function();
-	char id;					//º¯ÊıµÄÃû³Æ£¨Î¨Ò»±êÊ¶·û£©
-	char value;					//º¯ÊıµÄ×Ô±äÁ¿
-	Polynomial expression;		//º¯Êı½âÎöÊ½£¨¶àÏîÊ½£©
-	void set_value(char terget);//ÉèÖÃ×Ô±äÁ¿
-	Function set_RE(const ArgumentMap& arg);	//Êä³ö±»ÉèÖÃºÃ³£Á¿ÖµµÄº¯Êı½âÎöÊ½
-	double solve_y(int x);			//ÇóY
-	double solve_x(int y);			//ÇóX
+	char id;					//å‡½æ•°çš„åç§°ï¼ˆå”¯ä¸€æ ‡è¯†ç¬¦ï¼‰
+	char value;					//å‡½æ•°çš„è‡ªå˜é‡
+	Polynomial expression;		//å‡½æ•°è§£æå¼ï¼ˆå¤šé¡¹å¼ï¼‰
+	void set_value(char terget);//è®¾ç½®è‡ªå˜é‡
+	Function set_RE(const ArgumentMap& arg);	//è¾“å‡ºè¢«è®¾ç½®å¥½å¸¸é‡å€¼çš„å‡½æ•°è§£æå¼
+	double solve_y(int x);			//æ±‚Y
+	double solve_x(int y);			//æ±‚X
 private:
 };
-Vector operator+(Vector S, Vector E);					//ÏòÁ¿Ïà¼Ó
-Vector operator-(Vector S, Vector E);					//ÏòÁ¿Ïà¼õ
-Vector operator*(Vector S, Vector E);					//ÏòÁ¿Ïà³Ë
-Vector operator/(Vector S, Vector E);					//ÏòÁ¿Ïà³ı
+Vector operator+(Vector S, Vector E);					//å‘é‡ç›¸åŠ 
+Vector operator-(Vector S, Vector E);					//å‘é‡ç›¸å‡
+Vector operator*(Vector S, Vector E);					//å‘é‡ç›¸ä¹˜
+Vector operator/(Vector S, Vector E);					//å‘é‡ç›¸é™¤
 #endif // !_BASICS_H_
