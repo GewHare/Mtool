@@ -1,0 +1,22 @@
+多项式中的单个式子可表示为:
+	p(x)
+	————
+	q(x)
+所以多项式表示为：
+	p(x)	p1(x)	p2(x)		   pn(x)
+	————  + ————  + ————  +......+ —————
+	q(x)	q1(x)	q2(x)		   qn(x)
+这样可以涵盖所有的表达式
+字母结构(Letter)是构成单项式的基础;
+struct Letter
+{
+	//字母结构
+	charex letter;
+	double exponent;
+};
+单项式是构成多项式的基础;
+
+charex:
+	是对字符类型的拓展,实质为unsigned char；
+	charex前127个数字对应ASCII码表;
+	127后所有为括号转义;

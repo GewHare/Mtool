@@ -83,21 +83,21 @@ bool Monomial::operator==(const Monomial& M) const
 
 Monomial Monomial::operator+(const Monomial& M) const
 {
-	Monomial re_m = this->copy();
+	Monomial re_m = *this;
 	re_m.constnum+=M.constnum;
 	return re_m;
 }
 
 Monomial Monomial::operator-(const Monomial& M) const
 {
-	Monomial re_m = this->copy();
+	Monomial re_m = *this;
 	re_m.constnum -= M.constnum;
 	return re_m;
 }
 
 Monomial Monomial::operator*(const Monomial& M) const
 {
-	Monomial re_m=this->copy();
+	Monomial re_m= *this;
 	int size = re_m.size;
 	for (int i = 0; i < M.size; i++)
 	{
@@ -123,14 +123,14 @@ Monomial Monomial::operator*(const Monomial& M) const
 
 Monomial Monomial::operator*(double D) const
 {
-	Monomial re_m = this->copy();
+	Monomial re_m = *this;
 	re_m.constnum *= D;
 	return re_m;
 }
 
 Monomial Monomial::operator/(const Monomial& M) const
 {
-	Monomial re_m = this->copy();
+	Monomial re_m = *this;
 	int size = re_m.size;
 	for (int i = 0; i < M.size; i++)
 	{
@@ -160,7 +160,7 @@ Monomial Monomial::operator/(const Monomial& M) const
 
 Monomial Monomial::operator/(double D) const
 {
-	Monomial re_m = this->copy();
+	Monomial re_m = *this;
 	re_m.constnum /= D;
 	return re_m;
 }
@@ -189,19 +189,9 @@ void Polynomial::sort(char mode)
 {
 }
 
-Polynomial Polynomial::copy() const
-{
-	Polynomial re_p;
-	for (int i = 0; i < this->size; i++)
-	{
-		re_p.append(this->read(i));
-	}
-	return re_p;
-}
-
 Polynomial Polynomial::operator+(const Monomial& M) const
 {
-	Polynomial re_p = this->copy();
+	Polynomial re_p = *this;
 	int i = 0;
 	int size = re_p.size;
 	for (; i < size; i++)
@@ -223,7 +213,7 @@ Polynomial Polynomial::operator+(const Monomial& M) const
 
 Polynomial Polynomial::operator+(const Polynomial& P) const
 {
-	Polynomial re_p= this->copy();
+	Polynomial re_p= *this;
 	for (int i = 0; i < P.size; i++)
 	{
 		re_p += P.read(i);
@@ -261,7 +251,7 @@ void Polynomial::operator+=(const Monomial& M)
 
 Polynomial Polynomial::operator-(const Polynomial& P) const
 {
-	Polynomial re_p = this->copy();
+	Polynomial re_p = *this;
 	for (int i = 0; i < P.size; i++)
 	{
 		re_p -= P.read(i);
@@ -271,7 +261,7 @@ Polynomial Polynomial::operator-(const Polynomial& P) const
 
 Polynomial Polynomial::operator-(const Monomial& M) const
 {
-	Polynomial re_p = this->copy();
+	Polynomial re_p = *this;
 	int i = 0;
 	int size = re_p.size;
 	for (; i < size; i++)
@@ -340,7 +330,7 @@ void Polynomial::operator*=(const Polynomial& P)
 	Polynomial re_p;
 	for (int i = 0; i < P.size; i++)
 		re_p += (*this * P.read(i));
-	*this = re_p.copy();
+	*this = re_p;
 }
 
 void Polynomial::operator*=(const Monomial& M)
@@ -370,7 +360,7 @@ void Polynomial::operator/=(const Polynomial& P)
 	Polynomial re_p;
 	for (int i = 0; i < P.size; i++)
 		re_p += (*this / P.read(i));
-	*this = re_p.copy();
+	*this = re_p;
 }
 
 void Polynomial::operator/=(const Monomial& M)
@@ -381,7 +371,7 @@ void Polynomial::operator/=(const Monomial& M)
 
 Polynomial Polynomial::operator^(int ex) const
 {
-	Polynomial re_p=this->copy();
+	Polynomial re_p=*this;
 	for (int i = 1; i < ex; i++)
 	{
 		re_p *= *this;

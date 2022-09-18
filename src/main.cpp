@@ -4,15 +4,18 @@
 #include "Tool.h"
 
 using namespace std;
+void PolynomialExponentSample();		//示例，输出(a+b)的x次方；
+void LinearFunctionSample();				//示例，用户自定义线性函数并求解；
 int main()
 {
-	Letter Lc{ 'c',1 };
-	Monomial Mc;
-	Mc.append(Lc);
-	Letter Laf{ 'a',-1 };
-	Monomial Maf;
-	Maf.append(Laf);
+	PolynomialExponentSample();
+	system("pause");
+	return 0;
+}
 
+void PolynomialExponentSample()
+{
+	int x=0;
 	Letter La{ 'a',1 };
 	Letter Lb{ 'b',1 };
 	Monomial Ma;
@@ -30,7 +33,46 @@ int main()
 	Mb2.append(Lb2);
 	Polynomial P2 = (Polynomial)Ma2;
 	P2.append(Mb2);
-	cout << (P^16);
-	system("pause");
-	return 0;
+	cout << "计算(a+b)的X次方" << endl;
+	cout << "X:";
+	cin >> x;
+	cout << (P ^ x);
+}
+
+void LinearFunctionSample()
+{
+	int k; int b; int x;
+	Letter Lk{ 'k',1 };
+	Letter Lx{ 'x',1 };
+	Monomial M1;
+	M1.append(Lk);
+	M1.append(Lx);
+
+	Letter Lb{ 'b',1 };
+	Monomial M2;
+	M2.append(Lb);
+
+	Polynomial E;
+	E.append(M1);
+	E.append(M2);
+
+	Function F(E,'x');
+	cout << "函数模板:";
+	cout << F << endl;
+	cout << "k:";
+	cin >> k;
+	cout << endl;
+	cout << "b:";
+	cin >> b;
+	cout << endl;
+	ArgumentMap arg;
+	arg.insert('k', k);
+	arg.insert('b', b); 
+	Function Fx = F.set_RE(arg);
+	cout << "实际函数解析式：" << Fx<< endl;
+	cout << "x:";
+	cin >> x;
+	cout << endl;
+	cout<<Fx.solve_y(x);
+	cout << endl;
 }

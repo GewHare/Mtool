@@ -1,0 +1,23 @@
+charex:
+	为char类型的拓展；
+	实质为unsigned char；
+LinkList:
+析构：	
+	if(head!=nullptr)
+	{
+		Node* del = head;
+		Node* adel;
+		do
+		{
+			adel = del->next;
+			delete del;
+			del = adel;
+		} while (adel != nullptr);
+	}
+Letter:
+	为构成单项式的基本单位；
+	letter为字母(0~127，128~255表示括号内式子)；
+	expnent为字母的指数;
+Monomial:
+Polynomial:
+Function:
